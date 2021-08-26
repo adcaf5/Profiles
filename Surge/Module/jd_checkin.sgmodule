@@ -3,9 +3,14 @@
 #!system=ios
 
 [Script]
-# > 初次使用时,打开Safari浏览器登录 https://bean.m.jd.com 点击签到获取cookie,请注意,仅可网页获取!!!
-京东_获取cookie = type=http-request,pattern=https:\/\/api\.m\.jd\.com\/client\.action.*functionId=signBean,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=3600
-京东_签到 = type=cron,cronexp=0 0 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
+# > Safari浏览器打开登录 https://home.m.jd.com/myJd/newhome.action 点击"我的"页面
+# > 或者使用旧版网址 https://bean.m.jd.com/bean/signIndex.action 点击签到并且出现签到日历
+# > 如果通知获取Cookie成功, 则可以使用此签到脚本. 注: 请勿在京东APP内获取!!!
+# > 获取京东金融签到Body说明: 正确添加脚本配置后, 进入"京东金融"APP, 在"首页"点击"签到"并签到一次, 待通知提示成功即可.
+# > 由于Cookie的有效性(经测试网页Cookie有效周期最长31天)，如果脚本后续弹出Cookie无效的通知，则需要重复上述步骤。 
+# > 签到脚本将在每天的凌晨0:05执行, 您可以修改执行时间。 因部分接口京豆限量领取, 建议调整为凌晨签到。
+京东_获取Cookie = type=http-request,requires-body=1,pattern=^https:\/\/(api\.m|me-api|ms\.jr)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?|gw\/generic\/hy\/h5\/m\/appSign\?),script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
+京东_每日签到 = type=cron,cronexp=0 0 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
 
 [MITM]
 hostname = %APPEND% api.m.jd.com

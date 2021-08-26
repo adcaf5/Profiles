@@ -1,0 +1,13 @@
+#!name=饿了么
+#!desc=饿了么每日自动签到
+#!system=ios
+
+[Script]
+# > 饿了么APP - 我的 - 超级吃货卡
+饿了么_领取吃货豆 = type=cron,cronexp=10 00 * * *,wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/eleme/eleme_daily.js
+饿了么_领取任务 = type=cron,cronexp=00 10 * * *,wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/eleme/eleme_mission.js
+饿了么_获取Cookie = type=http-request,pattern=^https?:\/\/h5\.ele\.me\/restapi\/biz\.svip_scene\/svip\/engine\/queryTrafficSupply,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/eleme/eleme_daily.js
+
+
+[MITM]
+hostname = %APPEND% h5.ele.me

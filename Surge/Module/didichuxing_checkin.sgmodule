@@ -1,0 +1,17 @@
+#!name=滴滴出行
+#!desc=滴滴出行每日自动签到
+#!system=ios
+
+[Script]
+# > 重新进入一次滴滴出行APP，即可获取Cookie。
+# > 抽奖需要获取lid，获取路径为滴滴左上角-钱包-我的钱包-福利金。
+# > 天天有奖，首次使用需要手动签到一次获取ActivityId和ChannelId，不获取会尝试使用内置的ActivityId和ChannelId。获取路径：滴滴出行 - 左侧菜单 - 钱包。
+滴滴出行_每日签到 = type=cron,wake-system=1,timeout=120,cronexp=00 9 * * *,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/didichuxing/didi_checkin.js
+滴滴出行_获取Token = type=http-request,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/didichuxing/didi_checkin.js,pattern=^https?:\/\/api\.didialift\.com\/beatles\/userapi\/user\/user\/getuserinfo?.*city_id=(\d+).*token=([^&]*)
+滴滴出行_获取Ticket = type=http-request,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/didichuxing/didi_checkin.js,pattern=^https?:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\?.*location_cityid=(\d+).*&ticket=([^&]*)
+滴滴出行_获取LotteryId = type=http-request,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/didichuxing/didi_checkin.js,pattern=^https?:\/\/bosp-api\.xiaojukeji\.com\/bosp-api\/lottery\/info?.*lid=([^&]*)
+滴滴金融_获取ActivityId与ChannelId = type=http-response,requires-body=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/didichuxing/didi_checkin.js,pattern=^https?:\/\/pay\.diditaxi\.com\.cn\/web_wallet\/v2\/wallet\/home
+滴滴出行_获取GroupId = type=http-response,requires-body=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/didichuxing/didi_checkin.js,pattern=^https?:\/\/bosp-api\.xiaojukeji\.com\/wechat\/benefit\/public\/v2\/index
+
+[MITM]
+hostname = %APPEND% api.didialift.com,bosp-api.xiaojukeji.com,as.xiaojukeji.com,pay.diditaxi.com.cn
